@@ -1,0 +1,30 @@
+name: Deploy Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+      # 如果你需要的話：
+      # - name: Setup pnpm
+      #   uses: pnpm/action-setup@v5
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v6
+      #   with:
+      #     node-version: 22
+      #     cache: "pnpm"
+      # - name: Install dependencies
+      #   run: pnpm install --frozen-lockfile
+      # - name: Install & Build
+      #   run: pnpm build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./ # 或是 ./dist
