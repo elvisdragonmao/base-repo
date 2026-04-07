@@ -28,7 +28,7 @@ jobs:
           rm -rf ../gh-pages/_astro ../gh-pages/img
 
           # 複製新的 build 輸出
-          cp -r dist/* ../deploy/
+          cp -r * ../deploy/ # 或是 cp -r dist/* ../deploy/，根據你的需求調整。
 
           cd ../deploy
           git add .
