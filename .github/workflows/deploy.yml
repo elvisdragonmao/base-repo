@@ -21,13 +21,13 @@ jobs:
 
       - name: Deploy into gh-pages
         run: |
-          git fetch origin build || true
+          git fetch origin gh-pages || true
           git worktree add ../gh-pages gh-pages || git checkout --orphan gh-pages
 
           # 清空你不需要的舊檔案
           rm -rf ../gh-pages/_astro ../gh-pages/img
 
-          # 複製新的 build 輸出
+          # 複製新的網頁
           cp -r * ../deploy/ # 或是 cp -r dist/* ../deploy/，根據你的需求調整。
 
           cd ../deploy
@@ -35,7 +35,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: Deploy main site" || echo "No changes to commit"
-          git push origin build
+          git push origin gh-pages
 
       - name: Trigger Deploy Final Website workflow
         run: |
@@ -43,4 +43,4 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/actions/workflows/deploy.yml/dispatches \
-            -d '{"ref": "build"}'
+            -d '{"ref": "gh-pages"}'
